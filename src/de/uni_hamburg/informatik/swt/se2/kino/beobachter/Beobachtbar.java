@@ -21,53 +21,53 @@ import java.util.Set;
  * @author SE2-Team
  * @version SoSe 2017
  */
-public abstract class Beobachtbar {
-	private Set<Beobachter> _alleBeobachter;
+public abstract class Beobachtbar
+{
+    private Set<Beobachter> _alleBeobachter;
 
-	/**
-	 * Initialisiert ein beobachtbares Subwerkzeug.
-	 */
-	public Beobachtbar() {
-		_alleBeobachter = new HashSet<Beobachter>();
-	}
+    /**
+     * Initialisiert ein beobachtbares Subwerkzeug.
+     */
+    public Beobachtbar()
+    {
+        _alleBeobachter = new HashSet<Beobachter>();
+    }
 
-	/**
-	 * Registriert einen Beobachter an diesem Subwerkzeug. Der Beobachter wird
-	 * informiert, wenn sich bei diesem Werkzeug etwas ändert.
-	 * 
-	 * @require beobachter != null
-	 */
-	public void registriereBeobachter(Beobachter beobachter) {
-		assert beobachter != null : "Vorbedingung verletzt: beobachter != null";
-		_alleBeobachter.add(beobachter);
-	}
+    /**
+     * Registriert einen Beobachter an diesem Subwerkzeug. Der Beobachter wird
+     * informiert, wenn sich bei diesem Werkzeug etwas ändert.
+     * 
+     * @require beobachter != null
+     */
+    public void registriereBeobachter(Beobachter beobachter)
+    {
+        assert beobachter != null : "Vorbedingung verletzt: beobachter != null";
+        _alleBeobachter.add(beobachter);
+    }
 
-	/**
-	 * Entfernt einen Beobachter dieses Subwerkzeugs. Wenn der Beobachter gar nicht
-	 * registriert war, passiert nichts.
-	 */
-	public void entferneBeobachter(Beobachter beobachter) {
-		_alleBeobachter.remove(beobachter);
-	}
+    /**
+     * Informiert alle an diesem Subwerkzeug registrierten Beobachter über eine
+     * Änderung.
+     * 
+     * Diese Methode muss von der erbenden Klasse immer dann aufgerufen werden, wenn
+     * eine Änderung geschehen ist, die für Beobachter interessant ist.
+     */
+    protected void informiereUeberAenderungDatum()
+    {
+        for (Beobachter beobachter : _alleBeobachter)
+        {
+            beobachter.reagiereAufAenderungDatum();
+        }
+    }
 
-	/**
-	 * Informiert alle an diesem Subwerkzeug registrierten Beobachter über eine
-	 * Änderung.
-	 * 
-	 * Diese Methode muss von der erbenden Klasse immer dann aufgerufen werden, wenn
-	 * eine Änderung geschehen ist, die für Beobachter interessant ist.
-	 */
-	protected void informiereUeberAenderungDatum() {
-		for (Beobachter beobachter : _alleBeobachter) {
-			beobachter.reagiereAufAenderungDatum();
-		}
-	}
-	/**
-	 * 
-	 */
-	protected void informiereUeberAenderungVorstellung() {
-		for (Beobachter beobachter : _alleBeobachter) {
-			beobachter.reagiereAufAenderungVorstellung();
-		}
-	}
+    /**
+     * 
+     */
+    protected void informiereUeberAenderungVorstellung()
+    {
+        for (Beobachter beobachter : _alleBeobachter)
+        {
+            beobachter.reagiereAufAenderungVorstellung();
+        }
+    }
 }
