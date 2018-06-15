@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import de.uni_hamburg.informatik.swt.se2.kino.beobachter.Beobachtbar;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Tagesplan;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.ObservableSubwerkzeug;
 
 /**
  * Mit diesem Werkzeug kann der Benutzer oder die Benutzerin eine Vorstellung
@@ -17,7 +17,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
  * Dieses Werkzeug ist ein eingebettetes Subwerkzeug. Es benachrichtigt seine
  * Beobachter, wenn sich die ausgewählte Vorstellung geändert hat.
  */
-public class VorstellungsAuswaehlWerkzeug extends Beobachtbar
+public class VorstellungsAuswaehlWerkzeug extends ObservableSubwerkzeug
 {
     private VorstellungsAuswaehlWerkzeugUI _ui;
 
@@ -38,7 +38,7 @@ public class VorstellungsAuswaehlWerkzeug extends Beobachtbar
      */
     private void vorstellungWurdeAusgewaehlt()
     {
-    	informiereUeberAenderungVorstellung();
+        informiereUeberAenderung();
     }
 
     /**
@@ -53,14 +53,16 @@ public class VorstellungsAuswaehlWerkzeug extends Beobachtbar
     }
 
     /**
-     * Gibt die derzeit ausgewählte Vorstellung zurück. Wenn keine Vorstellung
-     * ausgewählt ist, wird <code>null</code> zurückgegeben.
+     * Gibt die derzeit ausgewählte Vorstellung zurück.
+     * 
+     * @return die derzeitig ausgewählte Vorstellung, oder null, wenn keine
+     *         Vorstellung ausgewählt ist.
      */
     public Vorstellung getAusgewaehlteVorstellung()
     {
         Vorstellung result = null;
-        VorstellungsFormatierer adapter = (VorstellungsFormatierer) _ui
-                .getVorstellungAuswahlList().getSelectedValue();
+        VorstellungsFormatierer adapter = _ui.getVorstellungAuswahlList()
+                .getSelectedValue();
         if (adapter != null)
         {
             result = adapter.getVorstellung();

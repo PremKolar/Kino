@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import de.uni_hamburg.informatik.swt.se2.kino.beobachter.Beobachtbar;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.ObservableSubwerkzeug;
 
 /**
  * Mit diesem Werkzeug kann ein Datum ausgewählt werden.
@@ -15,9 +15,9 @@ import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
  * Kontextwerkzeug, wenn sich das ausgewählte Datum geändert hat.
  * 
  * @author SE2-Team
- * @version SoSe 2018
+ * @version SoSe 2016
  */
-public class DatumAuswaehlWerkzeug extends Beobachtbar
+public class DatumAuswaehlWerkzeug extends ObservableSubwerkzeug
 {
     private DatumAuswaehlWerkzeugUI _ui;
     private Datum _ausgewaehltesDatum;
@@ -42,8 +42,7 @@ public class DatumAuswaehlWerkzeug extends Beobachtbar
         _ausgewaehltesDatum = _ausgewaehltesDatum.vorherigerTag();
         _ui.getDatumLabel()
                 .setText(_ausgewaehltesDatum.getFormatiertenString());
-        informiereUeberAenderungDatum();
-        
+        informiereUeberAenderung();
     }
 
     /**
@@ -54,7 +53,7 @@ public class DatumAuswaehlWerkzeug extends Beobachtbar
         _ausgewaehltesDatum = _ausgewaehltesDatum.naechsterTag();
         _ui.getDatumLabel()
                 .setText(_ausgewaehltesDatum.getFormatiertenString());
-        informiereUeberAenderungDatum();
+        informiereUeberAenderung();
     }
 
     /**
