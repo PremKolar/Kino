@@ -44,26 +44,34 @@ public class BarVerkaufsWerkszeugUI extends JPanel
 
     private JPanel erstellePanel(int currentPrice)
     {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        //        panel.add(new JScrollPane(_platzplan), BorderLayout.CENTER);
-
-        //        JPanel southPanel = new JPanel(new BorderLayout());
-        //        southPanel.setBorder(BorderFactory.createEmptyBorder(5,10,5,0));
-        //        
-        //        JPanel preisPanel = new JPanel(new BorderLayout());
-        _preisLabel = new JLabel();
-        panel.add(_preisLabel, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        _bezahlenButton = new JButton("Verkaufen");
-        buttonPanel.add(_bezahlenButton);
-        _stornierenButton = new JButton("Stornieren");
-        buttonPanel.add(_stornierenButton);
-
-        panel.add(buttonPanel, BorderLayout.EAST);
-
-        _preisLabel.add(currentPrice);
+          JPanel panel = new JPanel();
+          _bezahlenButton = new JButton("Verkaufen");
+          _stornierenButton = new JButton("Stornieren");
+          panel.add(_bezahlenButton);
+          panel.add(_stornierenButton);
+          txtFgfg = new JTextField("");
+          txtFgfg.setBounds(50, 50, 50, 50);
+          panel.add(txtFgfg);
+          
+//        panel.setLayout(new BorderLayout());
+//        //        panel.add(new JScrollPane(_platzplan), BorderLayout.CENTER);
+//
+//        //        JPanel southPanel = new JPanel(new BorderLayout());
+//        //        southPanel.setBorder(BorderFactory.createEmptyBorder(5,10,5,0));
+//        //        
+//        //        JPanel preisPanel = new JPanel(new BorderLayout());
+//        _preisLabel = new JLabel();
+//        panel.add(_preisLabel, BorderLayout.CENTER);
+//
+//        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+//        _bezahlenButton = new JButton("Verkaufen");
+//        buttonPanel.add(_bezahlenButton);
+//        _stornierenButton = new JButton("Stornieren");
+//        buttonPanel.add(_stornierenButton);
+//
+//        panel.add(buttonPanel, BorderLayout.EAST);
+//
+//        _preisLabel.add(currentPrice);
 
         return panel;
     }
