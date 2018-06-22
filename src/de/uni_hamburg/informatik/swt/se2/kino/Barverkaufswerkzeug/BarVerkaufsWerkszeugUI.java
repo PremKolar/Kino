@@ -46,6 +46,7 @@ public class BarVerkaufsWerkszeugUI extends JPanel
     {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
+
         //        panel.add(new JScrollPane(_platzplan), BorderLayout.CENTER);
 
         //        JPanel southPanel = new JPanel(new BorderLayout());
@@ -66,6 +67,35 @@ public class BarVerkaufsWerkszeugUI extends JPanel
         _preisLabel.add(currentPrice);
 
         return panel;
+    }
+
+    private JTextField makeTextFeld()
+    {
+        JTextField feld = new JTextField("hier Betrag eingeben");
+        return feld;
+    }
+
+    private int textfeldToInt(JTextField feld)
+    {
+        String text = feld.getText();
+        int geldInCents = Integer.parseInt(text);
+        return geldInCents;
+    }
+
+    //    
+    //    
+    //    String strV0TextBox = v0TextField.getText();   
+    //
+    //    double initialvelocity = Double.parseDouble(strV0TextField);
+    //    
+    //    
+
+    private int berechneRueckGeld(int currentPrice, int cashReceived)
+    {
+
+        int rueckgeld = cashReceived - currentPrice;
+        return rueckgeld;
+
     }
 
     public void zeigeFenster()
