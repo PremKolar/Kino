@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 public class BarVerkaufsWerkszeugUI extends JPanel
 {
-    private JTextField _txtFgfg;
+    private JTextField _bargeldFeld;
     private JFrame _frame;
     private static final String TITEL = "Barzahlung";
     private JPanel _hauptPanel;
@@ -16,11 +16,15 @@ public class BarVerkaufsWerkszeugUI extends JPanel
     private JButton _stornierenButton;
     private JLabel _preisLabel;
 
+    private int _rueckgeld;
+
     /**
      * Create the panel.
      */
     public BarVerkaufsWerkszeugUI(int currentPrice)
     {
+
+        _bargeldFeld = new JTextField("hier Bargeld eingeben!");
 
         _frame = new JFrame(TITEL);
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,14 +32,6 @@ public class BarVerkaufsWerkszeugUI extends JPanel
         _hauptPanel = erstellePanel(currentPrice);
 
         _frame.add(_hauptPanel);
-
-        //        txtFgfg = new JTextField();
-        //        txtFgfg.setText("fgfg");
-        //        topPanel.add(txtFgfg);
-        //        txtFgfg.setColumns(10);
-        //
-        //        JLabel lblNewLabel = new JLabel("New label");
-        //        add(lblNewLabel);
 
     }
 
@@ -81,19 +77,25 @@ public class BarVerkaufsWerkszeugUI extends JPanel
     {
         _frame.dispose();
     }
+
     public JButton getOKButton()
     {
-    	return null;
+        return _bezahlenButton;
     }
-    
+
     public JButton getAbbrechenButton()
     {
-    	return null;
+        return _stornierenButton;
     }
-    
+
     public JTextField getText()
     {
-    	return null;
+        return _bargeldFeld;
+    }
+
+    public void setRueckGeld(int rueckgeld)
+    {
+        _rueckgeld = rueckgeld;
     }
 
 }

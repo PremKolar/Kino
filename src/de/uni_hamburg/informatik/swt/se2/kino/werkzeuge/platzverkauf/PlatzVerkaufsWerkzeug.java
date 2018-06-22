@@ -98,7 +98,7 @@ public class PlatzVerkaufsWerkzeug
         BarVerkaufsWerkzeug barverkaufswerkzeug;
         barverkaufswerkzeug = new BarVerkaufsWerkzeug(currentPrice);
 
-        if (!barverkaufswerkzeug)
+        if (barverkaufswerkzeug.verkaufErfolgreich())
         {
             verkaufePlaetze(_vorstellung);
         }

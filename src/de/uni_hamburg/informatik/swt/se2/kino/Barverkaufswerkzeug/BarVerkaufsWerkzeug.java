@@ -11,19 +11,18 @@ public class BarVerkaufsWerkzeug
     private BarVerkaufsWerkszeugUI _ui;
     private int _currentPrice;
     private int _bargeld;
+    private int _rueckgeld;
     private boolean _success = false;
 
     /**
-     * Initialisiert das PlatzVerkaufsWerkzeug.
+     * Initialisiert das BarVerkaufsWerkzeug.
      */
-    public boolean BarVerkaufsWerkzeug(int currentPrice)
+    public BarVerkaufsWerkzeug(int currentPrice)
     {
         _currentPrice = currentPrice;
         _ui = new BarVerkaufsWerkszeugUI(_currentPrice);
         _ui.zeigeFenster();
         registriereUIAktionen();
-
-        return _success;
 
     }
 
@@ -42,7 +41,7 @@ public class BarVerkaufsWerkzeug
                 }
             });
 
-        _ui.getabbrechenButton()
+        _ui.getAbbrechenButton()
             .addActionListener(new ActionListener()
             {
                 @Override
@@ -59,6 +58,8 @@ public class BarVerkaufsWerkzeug
                 public void propertyChange(PropertyChangeEvent evt)
                 {
                     _bargeld = Integer.parseInt(evt.getPropertyName());
+                    _rueckgeld = berechneRueckGeld(_currentPrice, _bargeld);
+                    _ui.setRueckGeld(_rueckgeld);
                 }
             });
     }
@@ -70,4 +71,10 @@ public class BarVerkaufsWerkzeug
         return rueckgeld;
 
     }
+
+    public boolean verkaufErfolgreich()
+    {
+        return _success;
+    }
+
 }
