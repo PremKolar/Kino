@@ -81,5 +81,19 @@ public class BarVerkaufsWerkszeugUI extends JPanel
     {
         _frame.dispose();
     }
+    public JButton getOKButton()
+    {
+    	return null;
+    }
+    
+    public JButton getAbbrechenButton()
+    {
+    	return null;
+    }
+    
+    public JTextField getText()
+    {
+    	return null;
+    }
 
 }

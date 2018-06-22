@@ -101,7 +101,6 @@ public class PlatzVerkaufsWerkzeug
         if (!barverkaufswerkzeug)
         {
             verkaufePlaetze(_vorstellung);
-
         }
 
         //        barUI.schliesseFenster(); erst wenn fertig
