@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug.BarVerkaufsWerkszeugUI;
+import de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug.BarVerkaufsWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Platz;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kinosaal;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
@@ -95,11 +95,14 @@ public class PlatzVerkaufsWerkzeug
     private void fuehreBarzahlungDurch()
     {
 
-        BarVerkaufsWerkszeugUI barUI;
-        barUI = new BarVerkaufsWerkszeugUI(currentPrice);
-        barUI.zeigeFenster();
+        BarVerkaufsWerkzeug barverkaufswerkzeug;
+        barverkaufswerkzeug = new BarVerkaufsWerkzeug(currentPrice);
 
-        verkaufePlaetze(_vorstellung);
+        if (!barverkaufswerkzeug)
+        {
+            verkaufePlaetze(_vorstellung);
+
+        }
 
         //        barUI.schliesseFenster(); erst wenn fertig
     }

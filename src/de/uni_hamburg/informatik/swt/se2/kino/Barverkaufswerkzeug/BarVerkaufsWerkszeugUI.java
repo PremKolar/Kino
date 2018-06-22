@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 public class BarVerkaufsWerkszeugUI extends JPanel
 {
-    private JTextField txtFgfg;
+    private JTextField _txtFgfg;
     private JFrame _frame;
     private static final String TITEL = "Barzahlung";
     private JPanel _hauptPanel;
@@ -47,9 +47,6 @@ public class BarVerkaufsWerkszeugUI extends JPanel
         _stornierenButton = new JButton("Stornieren");
         panel.add(_bezahlenButton);
         panel.add(_stornierenButton);
-        txtFgfg = new JTextField("");
-        txtFgfg.setBounds(50, 50, 50, 50);
-        panel.add(txtFgfg);
 
         //        panel.setLayout(new BorderLayout());
         //        //        panel.add(new JScrollPane(_platzplan), BorderLayout.CENTER);
@@ -72,35 +69,6 @@ public class BarVerkaufsWerkszeugUI extends JPanel
         //        _preisLabel.add(currentPrice);
 
         return panel;
-    }
-
-    private JTextField makeTextFeld()
-    {
-        JTextField feld = new JTextField("hier Betrag eingeben");
-        return feld;
-    }
-
-    private int textfeldToInt(JTextField feld)
-    {
-        String text = feld.getText();
-        int geldInCents = Integer.parseInt(text);
-        return geldInCents;
-    }
-
-    //    
-    //    
-    //    String strV0TextBox = v0TextField.getText();   
-    //
-    //    double initialvelocity = Double.parseDouble(strV0TextField);
-    //    
-    //    
-
-    private int berechneRueckGeld(int currentPrice, int cashReceived)
-    {
-
-        int rueckgeld = cashReceived - currentPrice;
-        return rueckgeld;
-
     }
 
     public void zeigeFenster()
