@@ -1,6 +1,11 @@
 package de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug;
 
+import java.awt.Dialog;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,6 +15,7 @@ public class BarVerkaufsWerkszeugUI extends JPanel
 {
     private JTextField _bargeldFeld;
     private JFrame _frame;
+    private JDialog _dlg;
     private static final String TITEL = "Barzahlung";
     private JPanel _hauptPanel;
     private JButton _bezahlenButton;
@@ -26,12 +32,24 @@ public class BarVerkaufsWerkszeugUI extends JPanel
 
         _bargeldFeld = new JTextField("hier Bargeld eingeben!");
 
-        _frame = new JFrame(TITEL);
-        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //        _frame = new JFrame(TITEL);
+        //        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //        TODO funktionert alles nicht..
+
+        _dlg = new JDialog(_frame, "", Dialog.ModalityType.DOCUMENT_MODAL);
+        _dlg.setVisible(true);
+        _dlg.setMinimumSize(new Dimension(500, 500));
+        //        _dlg.setLayout(new BoxLayout(_hauptPanel, BoxLayout.PAGE_AXIS));
 
         _hauptPanel = erstellePanel(currentPrice);
+        //
+        //        _frame.setLayout(new BoxLayout(_hauptPanel, BoxLayout.PAGE_AXIS));
+        //  
+        _frame.setLayout(new BoxLayout(_hauptPanel, BoxLayout.PAGE_AXIS));
+        _dlg.add(_hauptPanel);
 
-        _frame.add(_hauptPanel);
+        //        _frame.add(_dlg);
 
     }
 
@@ -88,7 +106,7 @@ public class BarVerkaufsWerkszeugUI extends JPanel
         return _stornierenButton;
     }
 
-    public JTextField getText()
+    public JTextField getBarGeldText()
     {
         return _bargeldFeld;
     }

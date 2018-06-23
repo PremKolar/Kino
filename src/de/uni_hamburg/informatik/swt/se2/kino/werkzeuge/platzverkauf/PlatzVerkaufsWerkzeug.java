@@ -103,7 +103,6 @@ public class PlatzVerkaufsWerkzeug
             verkaufePlaetze(_vorstellung);
         }
 
-        //        barUI.schliesseFenster(); erst wenn fertig
     }
 
     /**

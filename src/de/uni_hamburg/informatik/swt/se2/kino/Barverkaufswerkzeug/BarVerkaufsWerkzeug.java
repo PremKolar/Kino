@@ -51,7 +51,7 @@ public class BarVerkaufsWerkzeug
                 }
             });
 
-        _ui.getText()
+        _ui.getBarGeldText()
             .addPropertyChangeListener("text", new PropertyChangeListener()
             {
                 @Override
