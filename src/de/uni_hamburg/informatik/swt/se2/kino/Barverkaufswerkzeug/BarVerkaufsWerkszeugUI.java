@@ -2,6 +2,7 @@ package de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug;
 
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,109 +12,115 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class BarVerkaufsWerkszeugUI extends JPanel
+public class BarVerkaufsWerkszeugUI
 {
-    private JTextField _bargeldFeld;
-    private JFrame _frame;
-    private JDialog _dlg;
-    private static final String TITEL = "Barzahlung";
-    private JPanel _hauptPanel;
-    private JButton _bezahlenButton;
-    private JButton _stornierenButton;
-    private JLabel _preisLabel;
+	    private JTextField _geldEingabe;
+	    private JFrame _frame;
+	    private JDialog _dialog;
+	    
+	    private JPanel _buttonpanel;
+	    private JPanel _preisAnzeigepanel;
+	    private JPanel _preisEingabepanel;
+	    private JPanel _restBetragpanel;
+	    
+	    private JButton _bezahlenButton;
+	    private JButton _abbrechenButton;
+	    
+	    private JLabel _preisLabel;
+	    private JLabel _textLabel;
+	    private JLabel _rueckGeldLabel;
 
-    private int _rueckgeld;
+	    private int _rueckgeld;
 
-    /**
-     * Create the panel.
-     */
-    public BarVerkaufsWerkszeugUI(int currentPrice)
-    {
+	    /**
+	     * Create the panel.
+	     */
+	   public BarVerkaufsWerkszeugUI (int currentPrice)
+	    {
+	    	_dialog = new JDialog();
+	    	_dialog.setModal(true);
+	    	_dialog.setTitle("Barzahlung");
+	    	_dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    	_dialog.setLayout(new BoxLayout(_dialog.getContentPane(), BoxLayout.Y_AXIS));
+	    	
+	    	
+	    	
+	    	
+	    	_bezahlenButton = new JButton("Bezahlen");
+	    	_abbrechenButton = new JButton("Abbrechen");
+	        _buttonpanel = new JPanel();
+	    	_buttonpanel.add(_bezahlenButton);
+	    	_buttonpanel.add(_abbrechenButton);
 
-        _bargeldFeld = new JTextField("hier Bargeld eingeben!");
+	    	
+	    	_preisLabel = new JLabel();
+	    	_preisLabel.setText(Integer.toString(currentPrice));
+	    	_preisLabel.setFont(new Font("Courier New", Font.ITALIC, 12));
+	    	_preisLabel.setFont(_preisLabel.getFont().deriveFont(30f));
+	    	_textLabel = new JLabel();
+	    	_textLabel.setText("Zu zahlender Betrag:   ");
+	    	_preisAnzeigepanel = new JPanel();
+	    	_preisAnzeigepanel.add(_textLabel);
+	    	_preisAnzeigepanel.add( _preisLabel);
+	    	
+	    	
+	    	_preisEingabepanel = new JPanel();
+	    	_geldEingabe = new JTextField(20);
+	    	_preisEingabepanel.add(_geldEingabe);
+	    	
+	    	_restBetragpanel = new JPanel();
+	    	_rueckGeldLabel = new JLabel();
+	    	_rueckGeldLabel.setText("Rückgeld :   " + Integer.toString(_rueckgeld));
+	    	_restBetragpanel.add(_rueckGeldLabel);
+	    	
+	    	
+	    	_dialog.add(_preisAnzeigepanel);
+	    	_dialog.add(_preisEingabepanel);
+	    	_dialog.add(_restBetragpanel);
+	    	_dialog.add(_buttonpanel);
+	    	
+	    	_dialog.pack();
+	    	_dialog.setVisible(true);
 
-        //        _frame = new JFrame(TITEL);
-        //        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    }
 
-        //        TODO funktionert alles nicht..
+		public JDialog get_dialog() {
+			return _dialog;
+		}
 
-        _dlg = new JDialog(_frame, "", Dialog.ModalityType.DOCUMENT_MODAL);
-        _dlg.setVisible(true);
-        _dlg.setMinimumSize(new Dimension(500, 500));
-        //        _dlg.setLayout(new BoxLayout(_hauptPanel, BoxLayout.PAGE_AXIS));
+		public JTextField get_geldEingabe() {
+			return _geldEingabe;
+		}
 
-        _hauptPanel = erstellePanel(currentPrice);
-        //
-        //        _frame.setLayout(new BoxLayout(_hauptPanel, BoxLayout.PAGE_AXIS));
-        //  
-        _frame.setLayout(new BoxLayout(_hauptPanel, BoxLayout.PAGE_AXIS));
-        _dlg.add(_hauptPanel);
+		
 
-        //        _frame.add(_dlg);
+		public JButton get_bezahlenButton() {
+			return _bezahlenButton;
+		}
 
-    }
+		
 
-    private JPanel erstellePanel(int currentPrice)
-    {
+		public JButton get_abbrechenButton() {
+			return _abbrechenButton;
+		}
 
-        JPanel panel = new JPanel();
-        _bezahlenButton = new JButton("Verkaufen");
-        _stornierenButton = new JButton("Stornieren");
-        panel.add(_bezahlenButton);
-        panel.add(_stornierenButton);
+		
 
-        //        panel.setLayout(new BorderLayout());
-        //        //        panel.add(new JScrollPane(_platzplan), BorderLayout.CENTER);
-        //
-        //        //        JPanel southPanel = new JPanel(new BorderLayout());
-        //        //        southPanel.setBorder(BorderFactory.createEmptyBorder(5,10,5,0));
-        //        //        
-        //        //        JPanel preisPanel = new JPanel(new BorderLayout());
-        //        _preisLabel = new JLabel();
-        //        panel.add(_preisLabel, BorderLayout.CENTER);
-        //
-        //        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        //        _bezahlenButton = new JButton("Verkaufen");
-        //        buttonPanel.add(_bezahlenButton);
-        //        _stornierenButton = new JButton("Stornieren");
-        //        buttonPanel.add(_stornierenButton);
-        //
-        //        panel.add(buttonPanel, BorderLayout.EAST);
-        //
-        //        _preisLabel.add(currentPrice);
+		public JLabel get_textLabel() {
+			return _textLabel;
+		}
 
-        return panel;
-    }
+		
+		public int get_rueckgeld() {
+			return _rueckgeld;
+		}
 
-    public void zeigeFenster()
-    {
-        _frame.setSize(600, 500);
-        _frame.setVisible(true);
-    }
+		public void set_rueckgeld(int _rueckgeld) {
+			this._rueckgeld = _rueckgeld;
+		}
 
-    public void schliesseFenster()
-    {
-        _frame.dispose();
-    }
+		
 
-    public JButton getOKButton()
-    {
-        return _bezahlenButton;
-    }
-
-    public JButton getAbbrechenButton()
-    {
-        return _stornierenButton;
-    }
-
-    public JTextField getBarGeldText()
-    {
-        return _bargeldFeld;
-    }
-
-    public void setRueckGeld(int rueckgeld)
-    {
-        _rueckgeld = rueckgeld;
-    }
+   
 
 }

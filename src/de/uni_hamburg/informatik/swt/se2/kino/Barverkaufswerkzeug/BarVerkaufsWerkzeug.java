@@ -21,7 +21,6 @@ public class BarVerkaufsWerkzeug
     {
         _currentPrice = currentPrice;
         _ui = new BarVerkaufsWerkszeugUI(_currentPrice);
-        _ui.zeigeFenster();
         registriereUIAktionen();
 
     }
@@ -31,7 +30,7 @@ public class BarVerkaufsWerkzeug
      */
     private void registriereUIAktionen()
     {
-        _ui.getOKButton()
+        _ui.get_bezahlenButton()
             .addActionListener(new ActionListener()
             {
                 @Override
@@ -41,17 +40,18 @@ public class BarVerkaufsWerkzeug
                 }
             });
 
-        _ui.getAbbrechenButton()
+        _ui.get_abbrechenButton()
             .addActionListener(new ActionListener()
             {
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
+                	_ui.get_dialog().dispose();
                     _success = false;
                 }
             });
 
-        _ui.getBarGeldText()
+        _ui.get_geldEingabe()
             .addPropertyChangeListener("text", new PropertyChangeListener()
             {
                 @Override
@@ -59,9 +59,11 @@ public class BarVerkaufsWerkzeug
                 {
                     _bargeld = Integer.parseInt(evt.getPropertyName());
                     _rueckgeld = berechneRueckGeld(_currentPrice, _bargeld);
-                    _ui.setRueckGeld(_rueckgeld);
+                    _ui.set_rueckgeld(_rueckgeld);
                 }
             });
+        
+        
     }
 
     private int berechneRueckGeld(int currentPrice, int cashReceived)
