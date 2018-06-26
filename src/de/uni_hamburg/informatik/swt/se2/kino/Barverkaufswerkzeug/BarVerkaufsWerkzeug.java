@@ -2,8 +2,6 @@ package de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class BarVerkaufsWerkzeug
 {
@@ -22,7 +20,8 @@ public class BarVerkaufsWerkzeug
         _currentPrice = currentPrice;
         _ui = new BarVerkaufsWerkszeugUI(_currentPrice);
         registriereUIAktionen();
-
+        _ui.get_dialog()
+            .setVisible(true);
     }
 
     /**
@@ -36,7 +35,19 @@ public class BarVerkaufsWerkzeug
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    _success = true;
+                    System.out.println(_ui.get_rueckgeld());
+
+                    if (_ui.get_rueckgeld() > 0)
+                    {
+                        _success = true;
+                        _ui.get_dialog()
+                            .dispose();
+                    }
+                    else
+                    {
+                        _success = false;
+                    }
+
                 }
             });
 
@@ -46,24 +57,39 @@ public class BarVerkaufsWerkzeug
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                	_ui.get_dialog().dispose();
                     _success = false;
+                    _ui.get_dialog()
+                        .dispose();
                 }
             });
 
         _ui.get_geldEingabe()
-            .addPropertyChangeListener("text", new PropertyChangeListener()
+            .addActionListener(new ActionListener()
             {
                 @Override
-                public void propertyChange(PropertyChangeEvent evt)
+                public void actionPerformed(ActionEvent e)
                 {
-                    _bargeld = Integer.parseInt(evt.getPropertyName());
+                    _bargeld = Integer.parseInt(e.getActionCommand());
                     _rueckgeld = berechneRueckGeld(_currentPrice, _bargeld);
                     _ui.set_rueckgeld(_rueckgeld);
+
                 }
             });
-        
-        
+
+        //        _ui.get_geldEingabe()
+        //            .addPropertyChangeListener("text", new PropertyChangeListener()
+        //            {
+        //                @Override
+        //                public void propertyChange(PropertyChangeEvent evt)
+        //                {
+        //
+        //                    _bargeld = Integer.parseInt(evt.getPropertyName());
+        //                    _rueckgeld = berechneRueckGeld(_currentPrice, _bargeld);
+        //                    System.out.println(_rueckgeld);
+        //                    _ui.set_rueckgeld(_rueckgeld);
+        //                }
+        //            });
+
     }
 
     private int berechneRueckGeld(int currentPrice, int cashReceived)

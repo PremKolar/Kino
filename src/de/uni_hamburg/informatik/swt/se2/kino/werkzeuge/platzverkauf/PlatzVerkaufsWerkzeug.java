@@ -16,9 +16,9 @@ import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
  * Mit diesem Werkzeug können Plätze verkauft und storniert werden. Es arbeitet
  * auf einer Vorstellung als Material. Mit ihm kann angezeigt werden, welche
  * Plätze schon verkauft und welche noch frei sind.
- * 
+ *
  * Dieses Werkzeug ist ein eingebettetes Subwerkzeug.
- * 
+ *
  * @author SE2-Team
  * @version SoSe 2016
  */
@@ -45,7 +45,7 @@ public class PlatzVerkaufsWerkzeug
     /**
      * Gibt das Panel dieses Subwerkzeugs zurück. Das Panel sollte von einem
      * Kontextwerkzeug eingebettet werden.
-     * 
+     *
      * @ensure result != null
      */
     public JPanel getUIPanel()
@@ -64,6 +64,7 @@ public class PlatzVerkaufsWerkzeug
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
+
                     fuehreBarzahlungDurch();
                 }
             });
@@ -108,7 +109,7 @@ public class PlatzVerkaufsWerkzeug
     /**
      * Reagiert darauf, dass sich die Menge der ausgewählten Plätze geändert
      * hat.
-     * 
+     *
      * @param plaetze die jetzt ausgewählten Plätze.
      */
     private void reagiereAufNeuePlatzAuswahl(Set<Platz> plaetze)
@@ -200,7 +201,7 @@ public class PlatzVerkaufsWerkzeug
 
     /**
      * Setzt am Platzplan die Anzahl der Reihen und der Sitze.
-     * 
+     *
      * @param saal Ein Saal mit dem der Platzplan initialisiert wird.
      */
     private void initialisierePlatzplan(int reihen, int sitzeProReihe)
@@ -211,7 +212,7 @@ public class PlatzVerkaufsWerkzeug
 
     /**
      * Markiert alle nicht verkaufbaren Plätze im Platzplan als verkauft.
-     * 
+     *
      * @param plaetze Eine Liste mit allen Plaetzen im Saal.
      */
     private void markiereNichtVerkaufbarePlaetze(List<Platz> plaetze)
