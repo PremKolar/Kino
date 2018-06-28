@@ -2,6 +2,15 @@ package de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 public class BarVerkaufsWerkzeug
 {
@@ -35,18 +44,23 @@ public class BarVerkaufsWerkzeug
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    System.out.println(_ui.get_rueckgeld());
-
-                    if (_ui.get_rueckgeld() > 0)
-                    {
-                        _success = true;
-                        _ui.get_dialog()
-                            .dispose();
-                    }
-                    else
-                    {
-                        _success = false;
-                    }
+                	
+                	if(_ui.getTextFieldLength() == 0)
+                	{
+                		
+                	}
+                	else
+                	{
+                	 _bargeld = Integer.parseInt(_ui.get_geldEingabe().getText());
+                	}
+                	if(_bargeld >= _currentPrice)
+                	{
+                	  _rueckgeld = _bargeld - _currentPrice;
+                	  _success = true;
+                	 _ui.get_dialog().dispose();
+                	 JOptionPane.showMessageDialog(null, "Rueckgeld: " + _rueckgeld);
+                	 
+                	}
 
                 }
             });
@@ -57,45 +71,39 @@ public class BarVerkaufsWerkzeug
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    _success = false;
                     _ui.get_dialog()
                         .dispose();
                 }
             });
-
-        _ui.get_geldEingabe()
-            .addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    _bargeld = Integer.parseInt(e.getActionCommand());
-                    _rueckgeld = berechneRueckGeld(_currentPrice, _bargeld);
-                    _ui.set_rueckgeld(_rueckgeld);
-
-                }
-            });
-
-        //        _ui.get_geldEingabe()
-        //            .addPropertyChangeListener("text", new PropertyChangeListener()
-        //            {
-        //                @Override
-        //                public void propertyChange(PropertyChangeEvent evt)
-        //                {
-        //
-        //                    _bargeld = Integer.parseInt(evt.getPropertyName());
-        //                    _rueckgeld = berechneRueckGeld(_currentPrice, _bargeld);
-        //                    System.out.println(_rueckgeld);
-        //                    _ui.set_rueckgeld(_rueckgeld);
-        //                }
-        //            });
+        
+        _ui.get_geldEingabe().addKeyListener(new KeyAdapter() {
+        	
+        	@Override
+        	public void keyReleased(KeyEvent e) {
+        		_ui.set_rueckgeld(berechneRueckGeld());
+        	}
+        	 
+        	public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				
+				if(!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE ))
+				{
+					
+					e.consume();
+					
+				}
+				if(_ui.getTextFieldLength() > 6)
+				{
+					e.consume();
+				}
+		}});
 
     }
 
-    private int berechneRueckGeld(int currentPrice, int cashReceived)
+    public int berechneRueckGeld()
     {
 
-        int rueckgeld = cashReceived - currentPrice;
+        int rueckgeld = _ui.getTexFieldStringToInt() - _currentPrice;
         return rueckgeld;
 
     }

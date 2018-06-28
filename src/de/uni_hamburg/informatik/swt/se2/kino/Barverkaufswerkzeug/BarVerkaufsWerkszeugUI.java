@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import sun.swing.UIAction;
+
 public class BarVerkaufsWerkszeugUI
 {
     private JTextField _geldEingabe;
@@ -87,6 +89,30 @@ public class BarVerkaufsWerkszeugUI
     public JTextField get_geldEingabe()
     {
         return _geldEingabe;
+    }
+    
+    public int getTextFieldLength()
+    {
+
+      return _geldEingabe.getText().length();
+    	
+    }
+    
+    public int getTexFieldStringToInt()
+    {
+    	int i = 0;
+    	System.out.println(_geldEingabe.getText());
+    	if((_geldEingabe.getText().length() > 0))
+    	{
+    		System.out.println(_geldEingabe.getText());
+    		i = Integer.parseInt(_geldEingabe.getText());
+     
+    	return  i;	
+    	}
+    	else
+    	{
+    		return i;
+    	}
     }
 
     public JButton get_bezahlenButton()
