@@ -7,38 +7,35 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import de.uni_hamburg.informatik.swt.se2.kino.Barverkaufswerkzeug.BarVerkaufsWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Platz;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kinosaal;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
-import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
 
 /**
  * Mit diesem Werkzeug können Plätze verkauft und storniert werden. Es arbeitet
  * auf einer Vorstellung als Material. Mit ihm kann angezeigt werden, welche
  * Plätze schon verkauft und welche noch frei sind.
- * 
+ *
  * Dieses Werkzeug ist ein eingebettetes Subwerkzeug.
- * 
+ *
  * @author SE2-Team
  * @version SoSe 2016
  */
 public class PlatzVerkaufsWerkzeug
 {
-    private int _ausgewaehlterGesamtbetrag;
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
     private Vorstellung _vorstellung;
 
     private PlatzVerkaufsWerkzeugUI _ui;
 
-    private BarzahlungsWerkzeug _barzahlungsWerkzeug;
+    private int currentPrice = 0;
 
     /**
      * Initialisiert das PlatzVerkaufsWerkzeug.
      */
     public PlatzVerkaufsWerkzeug()
     {
-        _barzahlungsWerkzeug = new BarzahlungsWerkzeug();
-
         _ui = new PlatzVerkaufsWerkzeugUI();
         registriereUIAktionen();
         // Am Anfang wird keine Vorstellung angezeigt:
@@ -48,7 +45,7 @@ public class PlatzVerkaufsWerkzeug
     /**
      * Gibt das Panel dieses Subwerkzeugs zurück. Das Panel sollte von einem
      * Kontextwerkzeug eingebettet werden.
-     * 
+     *
      * @ensure result != null
      */
     public JPanel getUIPanel()
@@ -61,34 +58,36 @@ public class PlatzVerkaufsWerkzeug
      */
     private void registriereUIAktionen()
     {
-        _ui.getVerkaufenButton().addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
+        _ui.getVerkaufenButton()
+            .addActionListener(new ActionListener()
             {
-                fuehreBarzahlungDurch();
-            }
-        });
-
-        _ui.getStornierenButton().addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                stornierePlaetze(_vorstellung);
-            }
-        });
-
-        _ui.getPlatzplan().addPlatzSelectionListener(
-                new PlatzSelectionListener()
+                @Override
+                public void actionPerformed(ActionEvent e)
                 {
-                    @Override
-                    public void auswahlGeaendert(PlatzSelectionEvent event)
-                    {
-                        reagiereAufNeuePlatzAuswahl(event
-                                .getAusgewaehltePlaetze());
-                    }
-                });
+
+                    fuehreBarzahlungDurch();
+                }
+            });
+
+        _ui.getStornierenButton()
+            .addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    stornierePlaetze(_vorstellung);
+                }
+            });
+
+        _ui.getPlatzplan()
+            .addPlatzSelectionListener(new PlatzSelectionListener()
+            {
+                @Override
+                public void auswahlGeaendert(PlatzSelectionEvent event)
+                {
+                    reagiereAufNeuePlatzAuswahl(event.getAusgewaehltePlaetze());
+                }
+            });
     }
 
     /**
@@ -96,24 +95,30 @@ public class PlatzVerkaufsWerkzeug
      */
     private void fuehreBarzahlungDurch()
     {
-        // TODO für Blatt 8: Verkaufen ohne Barzahlungswerkzeug
-        _barzahlungsWerkzeug.fuehreBarzahlungDurch(_ausgewaehlterGesamtbetrag);
-        if (_barzahlungsWerkzeug.barzahlungErfolgreich())
+
+        BarVerkaufsWerkzeug barverkaufswerkzeug;
+        barverkaufswerkzeug = new BarVerkaufsWerkzeug(currentPrice);
+
+        if (barverkaufswerkzeug.verkaufErfolgreich())
         {
             verkaufePlaetze(_vorstellung);
         }
+
     }
 
     /**
      * Reagiert darauf, dass sich die Menge der ausgewählten Plätze geändert
      * hat.
-     * 
+     *
      * @param plaetze die jetzt ausgewählten Plätze.
      */
     private void reagiereAufNeuePlatzAuswahl(Set<Platz> plaetze)
     {
-        _ui.getVerkaufenButton().setEnabled(istVerkaufenMoeglich(plaetze));
-        _ui.getStornierenButton().setEnabled(istStornierenMoeglich(plaetze));
+
+        _ui.getVerkaufenButton()
+            .setEnabled(istVerkaufenMoeglich(plaetze));
+        _ui.getStornierenButton()
+            .setEnabled(istStornierenMoeglich(plaetze));
         aktualisierePreisanzeige(plaetze);
     }
 
@@ -122,29 +127,30 @@ public class PlatzVerkaufsWerkzeug
      */
     private void aktualisierePreisanzeige(Set<Platz> plaetze)
     {
-        _ausgewaehlterGesamtbetrag = 0;
+
         if (istVerkaufenMoeglich(plaetze))
         {
             int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-            _ui.getPreisLabel().setText(
-                    "Gesamtpreis: " + preis + " Eurocent");
-            _ausgewaehlterGesamtbetrag = preis;
+            _ui.getPreisLabel()
+                .setText("Gesamtpreis: " + preis + " Eurocent");
+            currentPrice = preis;
         }
         else if (istStornierenMoeglich(plaetze))
         {
             int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-            _ui.getPreisLabel().setText(
-                    "Gesamtstorno: " + preis + " Eurocent");
+            _ui.getPreisLabel()
+                .setText("Gesamtstorno: " + preis + " Eurocent");
+            currentPrice = preis;
         }
         else if (!plaetze.isEmpty())
         {
-            _ui.getPreisLabel().setText(
-                    "Verkauf und Storno nicht gleichzeitig möglich!");
+            _ui.getPreisLabel()
+                .setText("Verkauf und Storno nicht gleichzeitig möglich!");
         }
         else
         {
-            _ui.getPreisLabel().setText(
-                    "Gesamtpreis: 0 Eurocent");
+            _ui.getPreisLabel()
+                .setText("Gesamtpreis: 0 Eurocent");
         }
     }
 
@@ -195,17 +201,18 @@ public class PlatzVerkaufsWerkzeug
 
     /**
      * Setzt am Platzplan die Anzahl der Reihen und der Sitze.
-     * 
+     *
      * @param saal Ein Saal mit dem der Platzplan initialisiert wird.
      */
     private void initialisierePlatzplan(int reihen, int sitzeProReihe)
     {
-        _ui.getPlatzplan().setAnzahlPlaetze(reihen, sitzeProReihe);
+        _ui.getPlatzplan()
+            .setAnzahlPlaetze(reihen, sitzeProReihe);
     }
 
     /**
      * Markiert alle nicht verkaufbaren Plätze im Platzplan als verkauft.
-     * 
+     *
      * @param plaetze Eine Liste mit allen Plaetzen im Saal.
      */
     private void markiereNichtVerkaufbarePlaetze(List<Platz> plaetze)
@@ -214,7 +221,8 @@ public class PlatzVerkaufsWerkzeug
         {
             if (!_vorstellung.istVerkaufbar(platz))
             {
-                _ui.getPlatzplan().markierePlatzAlsVerkauft(platz);
+                _ui.getPlatzplan()
+                    .markierePlatzAlsVerkauft(platz);
             }
         }
     }
@@ -224,7 +232,8 @@ public class PlatzVerkaufsWerkzeug
      */
     private void verkaufePlaetze(Vorstellung vorstellung)
     {
-        Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
+        Set<Platz> plaetze = _ui.getPlatzplan()
+            .getAusgewaehltePlaetze();
         vorstellung.verkaufePlaetze(plaetze);
         aktualisierePlatzplan();
     }
@@ -234,7 +243,8 @@ public class PlatzVerkaufsWerkzeug
      */
     private void stornierePlaetze(Vorstellung vorstellung)
     {
-        Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
+        Set<Platz> plaetze = _ui.getPlatzplan()
+            .getAusgewaehltePlaetze();
         vorstellung.stornierePlaetze(plaetze);
         aktualisierePlatzplan();
     }
